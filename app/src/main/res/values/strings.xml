@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SecondPage</string>
+    <string name="title_feed_tab">FeedTab</string>
+    <string name="title_search_tab">SearchTab</string>
+    <string name="title_subreddit_tab">SubRedditTab</string>
+    <string name="title_user_tab">UserTab</string>
+</resources>

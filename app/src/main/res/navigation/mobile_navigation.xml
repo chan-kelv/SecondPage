@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_feed">
+
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.kelvinfocus.secondpage.ui.feedTab.FeedTabFragment"
+        android:label="@string/title_feed_tab"
+        tools:layout="@layout/fragment_feed_tab" />
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.kelvinfocus.secondpage.ui.searchTab.SearchTabFragment"
+        android:label="@string/title_search_tab"
+        tools:layout="@layout/fragment_search_tab" />
+
+    <fragment
+        android:id="@+id/navigation_subreddit"
+        android:name="com.kelvinfocus.secondpage.ui.subredditTab.SubredditTabFragment"
+        android:label="@string/title_subreddit_tab"
+        tools:layout="@layout/fragment_subreddit_tab" />
+
+    <fragment
+        android:id="@+id/navigation_user"
+        android:name="com.kelvinfocus.secondpage.ui.userTab.UserTabFragment"
+        android:label="@string/title_subreddit_tab"
+        tools:layout="@layout/fragment_user_tab" />
+</navigation>
