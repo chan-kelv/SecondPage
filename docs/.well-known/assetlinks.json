@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.kelvinfocus.secondpage",
+    "sha256_cert_fingerprints":
+    ["A9:00:5F:7E:ED:C9:AC:5B:36:96:02:D6:EE:DF:B8:C0:7A:D0:33:38:89:9F:AE:EA:6D:C1:1E:EE:1F:B4:C8:7B"]
+  }
+}]
