@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kelvinfocus.secondpage">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,7 +24,35 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="chan-kelv.github.io"
+                    android:path="/SecondPage"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
+        <!--        <activity-->
+        <!--            android:name="net.openid.appauth.RedirectUriReceiverActivity"-->
+        <!--            android:exported="true"-->
+        <!--            tools:node="replace">-->
+        <!--            &lt;!&ndash;  redirect url: https://chan-kelv.github.io/SecondPage/          &ndash;&gt;-->
+        <!--            <intent-filter android:autoVerify="true">-->
+        <!--                <action android:name="android.intent.action.VIEW"/>-->
+        <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+        <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+        <!--&lt;!&ndash;                <data android:scheme="http"&ndash;&gt;-->
+        <!--&lt;!&ndash;                    android:host="com.kelvinfocus.secondpage"&ndash;&gt;-->
+        <!--&lt;!&ndash;                    android:path="/auth"/>&ndash;&gt;-->
+        <!--                <data android:scheme="https"-->
+        <!--                    android:host="chan-kelv.github.io"-->
+        <!--                    android:path="/SecondPage"/>-->
+        <!--            </intent-filter>-->
+        <!--        </activity>-->
     </application>
 
 </manifest>

@@ -16,6 +16,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //redirect url: https://chan-kelv.github.io/SecondPage/
+        manifestPlaceholders = ["appAuthRedirectScheme": "https://chan-kelv.github.io/SecondPage"]
     }
 
     buildTypes {
@@ -61,6 +64,9 @@ dependencies {
 
     // Retrofit - API network helper
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    // OAuth
+    implementation 'net.openid:appauth:0.11.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
