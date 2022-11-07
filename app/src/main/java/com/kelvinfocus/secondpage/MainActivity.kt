@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 124526) {
-            Timber.d("${data?.data}")
+            Timber.d("$data returned: {data?.data}")
         }
     }
 }

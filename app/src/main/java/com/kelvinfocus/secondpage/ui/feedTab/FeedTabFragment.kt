@@ -70,12 +70,12 @@ class FeedTabFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 124526) {
-            Timber.d("$data")
+            Timber.d("${data?.data}")
         }
     }
 //
     val clientId:String = "-YTeAzstBXbNIzrXHaw-rg"
-    val redirectUrl = "https://chan-kelv.github.io/SecondPage"
+    val redirectUrl = "https://chan-kelv.github.io"
     val duration = "permanent"
     val state = "myTotallyRandomString123"
 //    private fun generateRedditAuthUri(): String {

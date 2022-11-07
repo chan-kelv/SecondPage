@@ -17,11 +17,24 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //redirect url: https://chan-kelv.github.io/SecondPage/
-        manifestPlaceholders = ["appAuthRedirectScheme": "https://chan-kelv.github.io/SecondPage"]
+        //redirect url: https://chan-kelv.github.io/
+        manifestPlaceholders = ["appAuthRedirectScheme": "https://chan-kelv.github.io"]
+    }
+
+    signingConfigs {
+        // TODO use a real key to publish - this will be posted publicly so don't rely on it
+        debug {
+            storeFile file("../keystore/debugKey.jks")
+            storePassword "secondPageReddit"
+            keyAlias "debugKey1"
+            keyPassword "secondPageReddit"
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
