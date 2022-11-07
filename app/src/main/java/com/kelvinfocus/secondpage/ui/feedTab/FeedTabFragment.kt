@@ -58,46 +58,20 @@ class FeedTabFragment : Fragment() {
         val redditAuthUri = Uri.parse(redditAuthUrl)
         val redditTokenEndpoint = Uri.parse("https://www.reddit.com/api/v1/access_token") // i think??
         val serviceConfig = AuthorizationServiceConfiguration(redditAuthUri, redditTokenEndpoint)
-
 //        val redirectUrl = Uri.parse(URLEncoder.encode("http://com.kelvinfocus.secondpage/auth"))
 
         val authReq =generateAuthRequest(serviceConfig)
+        Timber.d("url: ${authReq.toUri()}")
 
         val authService = AuthorizationService(requireActivity())
         val intent = authService.getAuthorizationRequestIntent(authReq)
         requireActivity().startActivityForResult(intent, 124526)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 124526) {
-            Timber.d("${data?.data}")
-        }
-    }
-//
     val clientId:String = "-YTeAzstBXbNIzrXHaw-rg"
     val redirectUrl = "https://chan-kelv.github.io"
     val duration = "permanent"
     val state = "myTotallyRandomString123"
-//    private fun generateRedditAuthUri(): String {
-//        val clientId = "-YTeAzstBXbNIzrXHaw-rg"
-//        val code = "code"
-//        val state = "myTotallyRandomString123"
-//        val redirectUrl = URLEncoder.encode("http://com.kelvinfocus.secondpage/auth")
-//        val duration = "permanent"
-//
-//        val scopes = listOf("read", "vote", "subscribe", "save")
-//        val scopeBuffer = StringBuffer()
-//        scopes.forEach { scopeBuffer.append(it).append("+") }
-//        val scopeUri = scopeBuffer.toString().removeSuffix("+")
-//
-//        return "https://www.reddit.com/api/v1/authorize" +
-////                "?client_id=$clientId" +
-////                "&response_type=$code" +
-//                "&state=$state" +
-////                "&redirect_uri=$redirectUrl" +
-//                "&duration=$duration" +
-//                "&scope=$scopeUri"
-//    }
 
     fun generateAuthRequest(serviceConfiguration: AuthorizationServiceConfiguration) : AuthorizationRequest {
         val duration = "permanent"
