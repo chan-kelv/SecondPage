@@ -1,8 +1,10 @@
 package com.kelvinfocus.secondpage
 
 import android.accounts.AuthenticatorException
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,14 +12,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.kelvinfocus.secondpage.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        Timber.d("from activity: ${it.data?.data}")
+        if (it.resultCode == Activity.RESULT_OK) {
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,19 +46,5 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        Timber.plant(Timber.DebugTree())
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.d("activity request code: $requestCode")
-        if (requestCode == 124526) {
-            Timber.d("MainActivity data returned: {data?.data}")
-            data?.let { authIntent ->
-                val resp = AuthorizationResponse.fromIntent(authIntent)
-                val exception = AuthorizationException.fromIntent(authIntent)
-                Timber.d("auth response: $resp error: $exception")
-            }
-        }
     }
 }
