@@ -1,30 +1,26 @@
-package com.kelvinfocus.secondpage
+package com.kelvinfocus.secondpage.auth
 
-import android.app.Activity
+import android.content.Context
 import android.net.Uri
+import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_AUTH_ENDPOINT
+import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_TOKEN_ENDPOINT
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ResponseTypeValues
 import javax.inject.Inject
 
 // Provided by [ActivityModule]
 @ActivityScoped
-class AuthServiceHelper @Inject constructor (@ActivityContext val context: Activity) {
+class AuthServiceHelper @Inject constructor (
+    @ActivityContext val activity: Context,
+    val authState: AuthState
+) {
 
-    companion object {
-        const val REDDIT_AUTH_ENDPOINT = "https://www.reddit.com/api/v1/authorize"
-        const val REDDIT_TOKEN_ENDPOINT = "https://www.reddit.com/api/v1/access_token"
+    val authService:AuthorizationService by lazy { AuthorizationService(activity) }
 
-        const val CLIENT_ID = "-YTeAzstBXbNIzrXHaw-rg"
-        const val REDIRECT_URL = "https://chan-kelv.github.io"
-        const val CLIENT_STATE = "myTotallyRandomClientState123"
-
-        fun authStateIsValid(responseAuthState: String?): Boolean {
-            return responseAuthState == AuthServiceHelper.CLIENT_STATE
-        }
-    }
     fun generateRedditAuthServiceConfig(): AuthorizationServiceConfiguration {
         val redditAuthUri = Uri.parse(REDDIT_AUTH_ENDPOINT)
         val redditTokenEndpointUrl = Uri.parse(REDDIT_TOKEN_ENDPOINT)
@@ -49,5 +45,18 @@ class AuthServiceHelper @Inject constructor (@ActivityContext val context: Activ
             .setAdditionalParameters(mapOf(
                 Pair("duration", duration)
             )).build()
+    }
+
+    companion object {
+//        const val REDDIT_AUTH_ENDPOINT = "https://www.reddit.com/api/v1/authorize"
+//        const val REDDIT_TOKEN_ENDPOINT = "https://www.reddit.com/api/v1/access_token"
+
+        const val CLIENT_ID = "-YTeAzstBXbNIzrXHaw-rg"
+        const val REDIRECT_URL = "https://chan-kelv.github.io"
+        const val CLIENT_STATE = "myTotallyRandomClientState123"
+
+        fun authStateIsValid(responseAuthState: String?): Boolean {
+            return responseAuthState == CLIENT_STATE
+        }
     }
 }

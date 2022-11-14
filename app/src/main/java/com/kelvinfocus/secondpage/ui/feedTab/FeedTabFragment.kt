@@ -1,30 +1,14 @@
 package com.kelvinfocus.secondpage.ui.feedTab
 
-import android.app.Activity
-import android.app.ActivityOptions
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import com.kelvinfocus.secondpage.AuthServiceHelper
 import com.kelvinfocus.secondpage.MainActivity
 import com.kelvinfocus.secondpage.databinding.FragmentFeedTabBinding
 import dagger.hilt.android.AndroidEntryPoint
-import net.openid.appauth.AuthorizationRequest
-import net.openid.appauth.AuthorizationService
-import net.openid.appauth.AuthorizationServiceConfiguration
-import net.openid.appauth.ResponseTypeValues
-import timber.log.Timber
-import java.net.URLEncoder
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FeedTabFragment : Fragment() {

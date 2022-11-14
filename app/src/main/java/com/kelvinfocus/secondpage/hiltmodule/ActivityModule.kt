@@ -1,12 +1,12 @@
 package com.kelvinfocus.secondpage.hiltmodule
 
 import android.app.Activity
-import com.kelvinfocus.secondpage.AuthServiceHelper
+import com.kelvinfocus.secondpage.auth.AuthServiceHelper
+import com.kelvinfocus.secondpage.auth.AuthState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
@@ -14,5 +14,8 @@ import dagger.hilt.android.scopes.ActivityScoped
 object ActivityModule {
     @ActivityScoped
     @Provides
-    fun providesAuthServiceHelper(activity: Activity) = AuthServiceHelper(activity)
+    fun providesAuthServiceHelper(
+        activity: Activity,
+        authState: AuthState
+    ) = AuthServiceHelper(activity, authState)
 }
