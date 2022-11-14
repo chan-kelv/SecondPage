@@ -2,8 +2,8 @@ package com.kelvinfocus.secondpage.auth
 
 import android.content.Context
 import android.net.Uri
-import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_AUTH_FULL_ENDPOINT
-import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_TOKEN_FULL_ENDPOINT
+import com.kelvinfocus.secondpage.Endpoints.REDDIT_AUTH_FULL_ENDPOINT
+import com.kelvinfocus.secondpage.Endpoints.REDDIT_TOKEN_FULL_ENDPOINT
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import net.openid.appauth.AuthorizationRequest

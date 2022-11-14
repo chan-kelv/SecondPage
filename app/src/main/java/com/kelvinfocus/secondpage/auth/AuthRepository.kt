@@ -9,26 +9,34 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor() {
 
-    private val client: AuthService by lazy {
+    private val authClient: AuthService by lazy {
         ApiClient().retrofitAuthClient.create(AuthService::class.java)
     }
 
     suspend fun getAuthToken(authCode: String): Response<TokenResponse> {
         val tokenRequest = TokenRequest(authCode)
-        return client.authToken(authCode, authorization = tokenRequest.generateAuthHeader())
+        return authClient.authToken(authCode, authorization = TokenRequest.generateAuthHeader())
+    }
+
+    // TODO not tested yet
+    suspend fun refreshAuthToken(refreshToken: String): Response<TokenResponse> {
+        val auth = TokenRequest.generateAuthHeader()
+        return authClient.refreshToken(auth, refreshToken)
     }
 
     data class TokenRequest(
         val authCode: String
     ) {
-        fun generateAuthHeader(): String {
-            val clientId = AuthServiceHelper.CLIENT_ID
-            val clientSecret = "" // there is none for mobile
+        companion object {
+            fun generateAuthHeader(): String {
+                val clientId = AuthServiceHelper.CLIENT_ID
+                val clientSecret = "" // there is none for mobile
 
-            val credentials = "$clientId:$clientSecret".toByteArray()
-            val basicAuth = "Basic " + Base64.encodeToString(credentials, Base64.NO_WRAP)
-            Timber.d("BasicAuth: $basicAuth")
-            return basicAuth
+                val credentials = "$clientId:$clientSecret".toByteArray()
+                val basicAuth = "Basic " + Base64.encodeToString(credentials, Base64.NO_WRAP)
+                Timber.d("BasicAuth: $basicAuth")
+                return basicAuth
+            }
         }
     }
 
@@ -44,13 +52,5 @@ class AuthRepository @Inject constructor() {
             val authString = "bearer " + Base64.encodeToString(tokenArray, Base64.NO_WRAP)
             return authString
         }
-    }
-
-    companion object {
-        const val REDDIT_BASE_URL = "https://www.reddit.com/api/v1/"
-
-        const val REDDIT_ACCESS_TOKEN_ENDPOINT = "access_token"
-        const val REDDIT_AUTH_FULL_ENDPOINT = REDDIT_BASE_URL + "authorize"
-        const val REDDIT_TOKEN_FULL_ENDPOINT = REDDIT_BASE_URL + REDDIT_ACCESS_TOKEN_ENDPOINT
     }
 }
