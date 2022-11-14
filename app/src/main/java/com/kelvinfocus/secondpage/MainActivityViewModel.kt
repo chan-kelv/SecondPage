@@ -1,8 +1,6 @@
 package com.kelvinfocus.secondpage
 
 import android.app.Activity
-import android.content.Context
-import android.net.Uri
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,14 +12,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import net.openid.appauth.AuthorizationException
-import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationResponse
-import net.openid.appauth.AuthorizationService.TokenResponseCallback
-import net.openid.appauth.TokenResponse
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
@@ -36,7 +29,7 @@ class MainActivityViewModel @Inject constructor(
             validateAuthResponse(result)?.let { authCode ->
                 Timber.d("auth code: $authCode")
                 withContext(Dispatchers.IO) {
-                    val tokenResponse = authRepository.getToken(authCode)
+                    val tokenResponse = authRepository.getAuthToken(authCode)
                     Timber.d(tokenResponse.body().toString())
                 }
             }

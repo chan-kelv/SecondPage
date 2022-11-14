@@ -2,8 +2,8 @@ package com.kelvinfocus.secondpage.auth
 
 import android.content.Context
 import android.net.Uri
-import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_AUTH_ENDPOINT
-import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_TOKEN_ENDPOINT
+import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_AUTH_FULL_ENDPOINT
+import com.kelvinfocus.secondpage.auth.AuthRepository.Companion.REDDIT_TOKEN_FULL_ENDPOINT
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import net.openid.appauth.AuthorizationRequest
@@ -22,8 +22,8 @@ class AuthServiceHelper @Inject constructor (
     val authService:AuthorizationService by lazy { AuthorizationService(activity) }
 
     fun generateRedditAuthServiceConfig(): AuthorizationServiceConfiguration {
-        val redditAuthUri = Uri.parse(REDDIT_AUTH_ENDPOINT)
-        val redditTokenEndpointUrl = Uri.parse(REDDIT_TOKEN_ENDPOINT)
+        val redditAuthUri = Uri.parse(REDDIT_AUTH_FULL_ENDPOINT)
+        val redditTokenEndpointUrl = Uri.parse(REDDIT_TOKEN_FULL_ENDPOINT)
 
         return AuthorizationServiceConfiguration(redditAuthUri, redditTokenEndpointUrl)
     }

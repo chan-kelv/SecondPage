@@ -4,41 +4,24 @@ import android.util.Base64
 import com.google.gson.annotations.SerializedName
 import com.kelvinfocus.secondpage.ApiClient
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
 import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor() {
-    interface AuthService {
-        @POST(REDDIT_ACCESS_TOKEN_ENDPOINT)
-        @FormUrlEncoded
-//        @Headers("Accept: application/json")
-        suspend fun authToken(
-            @Field("code") code: String,
-            @Field("grant_type") grantType: String = "authorization_code",
-            @Field("redirect_uri") redirectUri: String = AuthServiceHelper.REDIRECT_URL,
-            @Header("Authorization") authorization: String
-//        @Body tokenRequest: TokenRequest
-        ): Response<TokenResponse>
+
+    private val client: AuthService by lazy {
+        ApiClient().retrofitAuthClient.create(AuthService::class.java)
+    }
+
+    suspend fun getAuthToken(authCode: String): Response<TokenResponse> {
+        val tokenRequest = TokenRequest(authCode)
+        return client.authToken(authCode, authorization = tokenRequest.generateAuthHeader())
     }
 
     data class TokenRequest(
-        val code: String
+        val authCode: String
     ) {
-        @SerializedName("grant_type")
-        val grantType: String = "authorization_code"
-
-        @SerializedName("redirect_uri")
-        val redirectUri: String = AuthServiceHelper.REDIRECT_URL
-
-        fun generateAuth(): String {
+        fun generateAuthHeader(): String {
             val clientId = AuthServiceHelper.CLIENT_ID
             val clientSecret = "" // there is none for mobile
 
@@ -55,22 +38,19 @@ class AuthRepository @Inject constructor() {
         @SerializedName("expires_in") val expiresIn: String,
         @SerializedName("refresh_token") val refreshToken: String,
         val scope: String
-    )
-
-    private val instance: AuthRepository.AuthService by lazy {
-        ApiClient().retrofitAuthClient.create(AuthRepository.AuthService::class.java)
-    }
-
-    suspend fun getToken(authCode: String): Response<TokenResponse> {
-        val tokenRequest = TokenRequest(authCode)
-        return instance.authToken(authCode, authorization = tokenRequest.generateAuth())
+    ) {
+        fun generateAuthTokenString(): String {
+            var tokenArray = accessToken.toByteArray()
+            val authString = "bearer " + Base64.encodeToString(tokenArray, Base64.NO_WRAP)
+            return authString
+        }
     }
 
     companion object {
         const val REDDIT_BASE_URL = "https://www.reddit.com/api/v1/"
 
-        const val REDDIT_AUTH_ENDPOINT = "${REDDIT_BASE_URL}authorize"
-        const val REDDIT_TOKEN_ENDPOINT = "${REDDIT_BASE_URL}access_token"
         const val REDDIT_ACCESS_TOKEN_ENDPOINT = "access_token"
+        const val REDDIT_AUTH_FULL_ENDPOINT = REDDIT_BASE_URL + "authorize"
+        const val REDDIT_TOKEN_FULL_ENDPOINT = REDDIT_BASE_URL + REDDIT_ACCESS_TOKEN_ENDPOINT
     }
 }
