@@ -32,26 +32,15 @@ class FeedTabFragment : Fragment() {
     private var _binding: FragmentFeedTabBinding? = null
     private val homeViewModel: FeedTabViewModel by viewModels()
 
-    @Inject lateinit var authServiceHelperFactory: AuthServiceHelper.AuthServiceHelperFactory
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        Timber.d("${it.data?.data}")
-        if (it.resultCode == Activity.RESULT_OK) {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val homeViewModel =
-//            ViewModelProvider(this).get(FeedTabViewModel::class.java)
 
         _binding = FragmentFeedTabBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -59,7 +48,8 @@ class FeedTabFragment : Fragment() {
         val loginButton = binding.textHome
         loginButton.text = "Login"
         loginButton.setOnClickListener {
-            login()
+            (activity as? MainActivity)?.login()
+//            login()
         }
         return root
     }
@@ -69,14 +59,14 @@ class FeedTabFragment : Fragment() {
         _binding = null
     }
 
-    private fun login() {
-        val authServiceHelper = authServiceHelperFactory.create()
-
-        val serviceConfig = authServiceHelper.generateRedditAuthServiceConfig()
-        val authReq =authServiceHelper.generateAuthRequest(serviceConfig)
-
-        val authService = AuthorizationService(requireActivity())
-        val intent = authService.getAuthorizationRequestIntent(authReq)
-        (requireActivity() as MainActivity).startForResult.launch(intent)
-    }
+//    private fun login() {
+//        val authServiceHelper = authServiceHelperFactory.create()
+//
+//        val serviceConfig = authServiceHelper.generateRedditAuthServiceConfig()
+//        val authReq =authServiceHelper.generateAuthRequest(serviceConfig)
+//
+//        val authService = AuthorizationService(requireActivity())
+//        val intent = authService.getAuthorizationRequestIntent(authReq)
+//        (requireActivity() as MainActivity).startForResult.launch(intent)
+//    }
 }

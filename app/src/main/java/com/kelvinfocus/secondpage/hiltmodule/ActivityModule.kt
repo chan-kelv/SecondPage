@@ -11,8 +11,8 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
-class ActivityModule {
+object ActivityModule {
     @ActivityScoped
     @Provides
-    fun providesAuthServiceHelper(@ActivityContext activity: Activity) = AuthServiceHelper(activity)
+    fun providesAuthServiceHelper(activity: Activity) = AuthServiceHelper(activity)
 }

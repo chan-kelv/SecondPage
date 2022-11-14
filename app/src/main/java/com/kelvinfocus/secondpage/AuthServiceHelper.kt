@@ -3,20 +3,15 @@ package com.kelvinfocus.secondpage
 import android.app.Activity
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ResponseTypeValues
 import javax.inject.Inject
 
-class AuthServiceHelper constructor (
-    @ActivityContext private val activity: Activity) {
-    class AuthServiceHelperFactory @Inject constructor(
-        private val activity: Activity
-    ) {
-        fun create(): AuthServiceHelper {
-            return AuthServiceHelper(activity)
-        }
-    }
+// Provided by [ActivityModule]
+@ActivityScoped
+class AuthServiceHelper @Inject constructor (@ActivityContext val context: Activity) {
 
     companion object {
         const val REDDIT_AUTH_ENDPOINT = "https://www.reddit.com/api/v1/authorize"
@@ -25,6 +20,10 @@ class AuthServiceHelper constructor (
         const val CLIENT_ID = "-YTeAzstBXbNIzrXHaw-rg"
         const val REDIRECT_URL = "https://chan-kelv.github.io"
         const val CLIENT_STATE = "myTotallyRandomClientState123"
+
+        fun authStateIsValid(responseAuthState: String?): Boolean {
+            return responseAuthState == AuthServiceHelper.CLIENT_STATE
+        }
     }
     fun generateRedditAuthServiceConfig(): AuthorizationServiceConfiguration {
         val redditAuthUri = Uri.parse(REDDIT_AUTH_ENDPOINT)
