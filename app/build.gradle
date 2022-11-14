@@ -16,9 +16,25 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //redirect url: https://chan-kelv.github.io/
+        manifestPlaceholders = ["appAuthRedirectScheme": "https://chan-kelv.github.io"]
+    }
+
+    signingConfigs {
+        // TODO use a real key to publish - this will be posted publicly so don't rely on it
+        debug {
+            storeFile file("../keystore/debugKey.jks")
+            storePassword "secondPageReddit"
+            keyAlias "debugKey1"
+            keyPassword "secondPageReddit"
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -61,6 +77,14 @@ dependencies {
 
     // Retrofit - API network helper
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    // Gson - JSON parsing
+    implementation 'com.google.code.gson:gson:2.10'
+
+    // OAuth
+    implementation 'net.openid:appauth:0.11.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

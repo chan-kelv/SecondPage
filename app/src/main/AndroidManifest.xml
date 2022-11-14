@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kelvinfocus.secondpage">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".SecondPageApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,7 +25,34 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                    android:host="chan-kelv.github.io"-->
+<!--                    android:path="/SecondPage"-->
+<!--                    android:scheme="https" />-->
+<!--            </intent-filter>-->
         </activity>
+                <activity
+                    android:name="net.openid.appauth.RedirectUriReceiverActivity"
+                    android:exported="true"
+                    tools:node="replace">
+                    <!--  redirect url: https://chan-kelv.github.io/SecondPage/          -->
+                    <intent-filter android:autoVerify="true">
+                        <action android:name="android.intent.action.VIEW"/>
+                        <category android:name="android.intent.category.DEFAULT"/>
+                        <category android:name="android.intent.category.BROWSABLE"/>
+        <!--                <data android:scheme="http"-->
+        <!--                    android:host="com.kelvinfocus.secondpage"-->
+        <!--                    android:path="/auth"/>-->
+                        <data android:scheme="https"
+                            android:host="chan-kelv.github.io" />
+                    </intent-filter>
+                </activity>
     </application>
 
 </manifest>
